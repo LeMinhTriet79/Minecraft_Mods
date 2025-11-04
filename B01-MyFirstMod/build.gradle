@@ -1,19 +1,39 @@
 plugins {
-    id 'java'
+    id 'java' // Plugin Java để sử dụng Gradle với Java
+    id 'eclipse' // Plugin Eclipse để tạo project cho Eclipse IDE
+    id 'maven-publish' // Plugin Maven để publish mod lên các repository
 }
 
-group = 'minecraft.se3979'
-version = '1.0-SNAPSHOT'
+group = 'minecraft.se3979' // Group ID cho mod
+version = '1.0-SNAPSHOT' // Phiên bản mod
+sourceCompatibility = '17' // Java 17 là phiên bản hỗ trợ tốt nhất cho Minecraft hiện nay
 
 repositories {
-    mavenCentral()
+    mavenCentral() // Repository chính thức để tải các thư viện cần thiết
+    maven {
+        name = "Forge"
+        url = uri('https://maven.minecraftforge.net/') // Địa chỉ tải các thư viện Forge
+    }
 }
 
 dependencies {
+    // Phụ thuộc chính của Minecraft Forge
+    minecraft "net.minecraftforge:forge:1.16.5-36.2.0" // Phiên bản Forge cho Minecraft 1.16.5
+
+    // Phụ thuộc cho unit tests (JUnit)
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
+minecraft {
+    version = "1.16.5" // Phiên bản Minecraft bạn muốn mod
+    runDir = "run" // Đường dẫn để chạy Minecraft với mod
+}
+
 test {
-    useJUnitPlatform()
+    useJUnitPlatform() // Sử dụng JUnit Platform cho các bài kiểm tra
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir // Lệnh để xóa thư mục build
 }
